@@ -15,7 +15,7 @@ FROM quay.io/keycloak/keycloak:26.0.4
 USER root
 
 # Kopiera från builder
-COPY target/bankid4keycloak-*.jar /opt/keycloak/providers
+COPY bankid4keycloak-*.jar /opt/keycloak/providers
 
 # Exponera port (ändra vid behov)
 EXPOSE 8080
