@@ -21,6 +21,7 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 EXPOSE 8080
 
 # Starta Keycloak (production), använd start-dev för enkel testning utan SSL
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
+
 
 # Notera: ingen admin/env här, det tas via Railway/Render/GCP env settings!
