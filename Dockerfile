@@ -15,7 +15,7 @@ FROM quay.io/keycloak/keycloak:26.0.4
 USER root
 
 # Kopiera från builder
-COPY --from=builder /opt/keycloak/ /opt/keycloak/
+COPY target/bankid4keycloak-*.jar /opt/keycloak/providers
 
 # Exponera port (ändra vid behov)
 EXPOSE 8080
@@ -25,4 +25,4 @@ ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
 
 
 # Notera: ingen admin/env här, det tas via Railway/Render/GCP env settings!
-FROM quay.io/keycloak/keycloak:26.0.4
+
