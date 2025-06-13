@@ -1,5 +1,5 @@
 # Bygg Keycloak med extra providers
-FROM quay.io/keycloak/keycloak:26.0.5 AS builder
+FROM quay.io/keycloak/keycloak:26.0.4 AS builder
 
 USER root
 
@@ -10,7 +10,7 @@ COPY providers/*.jar /opt/keycloak/providers/
 RUN /opt/keycloak/bin/kc.sh build
 
 # Slutgiltig image
-FROM quay.io/keycloak/keycloak:26.0.5
+FROM quay.io/keycloak/keycloak:26.0.4
 
 USER root
 
@@ -25,3 +25,4 @@ ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
 
 
 # Notera: ingen admin/env här, det tas via Railway/Render/GCP env settings!
+FROM quay.io/keycloak/keycloak:26.0.4
