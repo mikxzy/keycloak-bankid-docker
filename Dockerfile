@@ -1,25 +1,33 @@
 # Bygg Keycloak med extra providers
-FROM quay.io/keycloak/keycloak:26.0.4 AS builder
+FROM quay.io/keycloak/keycloak:25.0.4 AS builder
 
-USER root
+ARG KC_HEALTH_ENABLED KC_METRICS_ENABLED KC_FEATURES KC_DB KC_HTTP_ENABLED PROXY_ADDRESS_FORWARDING QUARKUS_TRANSACTION_MANAGER_ENABLE_RECOVERY KC_HOSTNAME KC_LOG_LEVEL KC_DB_POOL_MIN_SIZE
 
-# Kopiera custom providers
+# Ladda ner extra externa providers
+ADD --chown=keycloak:keycloak https://github.com/klausbetz/apple-identity-provider-keycloak/releases/download/1.7.1/apple-identity-provider-1.7.1.jar /opt/keycloak/providers/apple-identity-provider-1.7.1.jar
+ADD --chown=keycloak:keycloak https://github.com/wadahiro/keycloak-discord/releases/download/v0.5.0/keycloak-discord-0.5.0.jar /opt/keycloak/providers/keycloak-discord-0.5.0.jar
+
+# Kopiera in egna providers (t ex din bankid4keycloak-*.jar)
 COPY providers/*.jar /opt/keycloak/providers/
 
-# Bygg in providers
+# Teman om du använder det
+COPY /theme/keywind /opt/keycloak/themes/keywind
+
+# Bygg Keycloak
 RUN /opt/keycloak/bin/kc.sh build
 
-# Slutgiltig image
-FROM quay.io/keycloak/keycloak:26.0.4
+FROM quay.io/keycloak/keycloak:latest
 
-USER root
+# Om du har någon extra java.config, annars kan du ta bort denna rad
+COPY java.config /etc/crypto-policies/back-ends/java.config
 
-# Kopiera från builder
-COPY bankid4keycloak-*.jar /opt/keycloak/providers
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
-# Exponera port (Render letar efter EXPOSE 8080)
+# Exponera porten (valfritt)
 EXPOSE 8080
 
-# Starta Keycloak på 0.0.0.0:8080 med hostname-strict=false (bra för cloud)
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--http-port=8080", "--hostname-strict=false", "--import-realm" ]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
+# Production: ["start", "--optimized"]
+# Dev/test:   ["start-dev"]
+CMD ["start", "--optimized", "--import-realm"]
