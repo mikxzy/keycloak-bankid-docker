@@ -17,12 +17,9 @@ USER root
 # Kopiera från builder
 COPY bankid4keycloak-*.jar /opt/keycloak/providers
 
-# Exponera port (ändra vid behov)
+# Exponera port (Render letar efter EXPOSE 8080)
 EXPOSE 8080
 
-# Starta Keycloak (production), använd start-dev för enkel testning utan SSL
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
-
-
-# Notera: ingen admin/env här, det tas via Railway/Render/GCP env settings!
+# Starta Keycloak på 0.0.0.0:8080 med hostname-strict=false (bra för cloud)
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--http-port=8080", "--hostname-strict=false", "--import-realm" ]
 
