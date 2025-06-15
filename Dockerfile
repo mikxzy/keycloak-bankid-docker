@@ -1,9 +1,9 @@
-FROM quay.io/keycloak/keycloak:26.0.4 AS builder
+FROM quay.io/keycloak/keycloak:26.0.5 AS builder
 
 COPY providers/bankid4keycloak-*.jar /opt/keycloak/providers/
 RUN /opt/keycloak/bin/kc.sh build
 
-FROM quay.io/keycloak/keycloak:26.0.4
+FROM quay.io/keycloak/keycloak:26.0.5
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # Lägg till dessa rader
