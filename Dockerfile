@@ -7,4 +7,4 @@ RUN /opt/keycloak/bin/kc.sh build
 FROM quay.io/keycloak/keycloak:26.0.4
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 EXPOSE 8080
-CMD ["start"]
+CMD printenv && /opt/keycloak/bin/kc.sh start-dev
