@@ -4,8 +4,8 @@ FROM quay.io/keycloak/keycloak:25.0.1 AS builder
 USER root
 
 COPY providers/bankid4keycloak-*.jar /opt/keycloak/providers/
-COPY certs/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
-COPY certs/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
+COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
+COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
 RUN /opt/keycloak/bin/kc.sh build
 
