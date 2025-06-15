@@ -13,4 +13,4 @@ RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
 EXPOSE 8080
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start", "--optimized", "--auto-build"]
+CMD ["start", "--optimized"]
