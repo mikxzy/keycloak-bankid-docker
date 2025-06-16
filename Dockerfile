@@ -8,9 +8,8 @@ COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
 COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
-
-
-RUN /opt/keycloak/bin/kc.sh build
+# Build with PostgreSQL support
+RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
 FROM quay.io/keycloak/keycloak:25.0.1
 
@@ -20,6 +19,5 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 EXPOSE 8080
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start", "--optimized","--truststore-paths=/opt/keycloak/truststore/bankid-root.pem"]
-
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "--verbose" ]
+CMD ["start", "--optimized", "--truststore-paths=/opt/keycloak/truststore/bankid-root.pem"]
