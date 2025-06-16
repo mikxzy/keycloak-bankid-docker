@@ -6,6 +6,8 @@ USER root
 COPY providers/bankid4keycloak-*.jar /opt/keycloak/providers/
 COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
+# Lägg till Postgres JDBC driver
+ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar /opt/keycloak/providers/
 
 RUN /opt/keycloak/bin/kc.sh build
 
