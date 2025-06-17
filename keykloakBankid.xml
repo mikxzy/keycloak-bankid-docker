@@ -1,0 +1,25 @@
+<md:EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://keycloak-bankid-docker-production.up.railway.app/realms/master">
+<md:IDPSSODescriptor WantAuthnRequestsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<md:KeyDescriptor use="signing">
+<ds:KeyInfo>
+<ds:KeyName>5aux6OGtjivO4egfyc0lsSoG-nFRS-pOmb84jcRRB4I</ds:KeyName>
+<ds:X509Data>
+<ds:X509Certificate>MIICmzCCAYMCBgGXesX1XzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjUwNjE2MjIwMzAzWhcNMzUwNjE2MjIwNDQzWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCBrsBZRjDS/9S/R6qfYtaeDylXy4OlJ/+IwUn0tS676xGpTnq0ksqb5+3liDf3cPi6oXw797Di5zOHuJ9fBcVRu2r8gshWJwi548nNAfB5Ytwuir/C7RFPx8nrIYN9n0D7yzTleIhswrenVs/Y/TJFKNetMOuCM+jthhremLzH0sLcABYB6piKHDBcH5/MBYPGyEIUQZ9OB9eZ/597OA27weo94Hlsn1NQSZN63Yg1su4rOGDYCB7OPGpLB2uyLzph5/On7Sq+EsFXDWgdxs8FK5fA1RVmD7vfbG4ZOk9ppYj42NVneekbUeSOUM1X9SdTxhOT4W/C8afgVb1d0J1jAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAEfYxYZIgCJOcbKa2VEhAEQmXd+g8zAwpIQBTKM/eOZmQkwXULHVgBmSepUa4M3zqdzGIoIdhJkK9uKt0QaSfFz70oyMRSAphNoR0IE2Md5/xsJ+HUn3vKQoegqtjEjADi41UJPtvudn0V093+f96GS4yTdjUXELPvVGDyo8J+lqNsSOiaBtabBwOH8NTnwOpKlWRF/Y0gy7T8BZbgQDkpiVLOy3sBfYabBWsFVhzqRVLJGLrMHITG6geCDsn3Tw5V4ZCBc8qg2GNE0Z47aiB+6JwEvRsIAP4pN6Y7lySFlwtoSFb2368JuxMQc+3KiMbTCtHDB34zoeKay9wKQFZeI=</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</md:KeyDescriptor>
+<md:ArtifactResolutionService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml/resolve" index="0"/>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="https://keycloak-bankid-docker-production.up.railway.app/realms/master/protocol/saml"/>
+</md:IDPSSODescriptor>
+</md:EntityDescriptor>
