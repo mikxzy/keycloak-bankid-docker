@@ -3,7 +3,7 @@ FROM quay.io/keycloak/keycloak:25.0.1 AS builder
 
 USER root
 
-COPY providers/bankid4keycloak-*.jar /opt/keycloak/providers/
+COPY providers/sweden-connect-provider*.jar /opt/keycloak/providers/
 COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
 COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
@@ -19,5 +19,6 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 EXPOSE 8080
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "--verbose" ]
-CMD ["start", "--optimized", "--truststore-paths=/opt/keycloak/truststore/bankid-root.pem"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+CMD ["start","--optimized","--truststore-paths=/opt/keycloak/truststore/bankid-root.pem","--log-level=DEBUG","--verbose"]
+
