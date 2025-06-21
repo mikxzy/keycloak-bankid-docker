@@ -1,5 +1,5 @@
 
-FROM quay.io/keycloak/keycloak:25.0.1 AS builder
+FROM quay.io/keycloak/keycloak:26.0.4 AS builder
 
 USER root
 
@@ -13,7 +13,7 @@ RUN ls -lh /opt/keycloak/truststore/
 
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
-FROM quay.io/keycloak/keycloak:25.0.1
+FROM quay.io/keycloak/keycloak:26.0.4
 
 USER root
 
