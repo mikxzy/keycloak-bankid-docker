@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:26.0.4 AS builder
+FROM keycloak/keycloak:26.0.4 AS builder
 
 USER root
 
@@ -18,7 +18,7 @@ RUN ls -lh /opt/keycloak/truststore/
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
 # Runtime image
-FROM quay.io/keycloak/keycloak:26.0.4
+FROM keycloak/keycloak:26.0.4
 
 USER root
 
