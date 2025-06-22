@@ -9,7 +9,7 @@ COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
 # 🔹 Kopiera custom theme till rätt plats
-COPY themes /opt/keycloak/theme
+COPY theme /opt/keycloak/theme
 
 # Kontrollera innehåll
 RUN ls -lh /opt/keycloak/truststore/
@@ -26,7 +26,7 @@ USER root
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # 🔁 Kopiera themes separat igen för säkerhets skull (valfritt men säkert)
-COPY themes /opt/keycloak/theme
+COPY theme /opt/keycloak/theme
 
 EXPOSE 8080
 
