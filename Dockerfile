@@ -21,6 +21,5 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 EXPOSE 8080
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start", "--optimized", "--truststore-paths=/opt/keycloak/truststore/truststore.p12", "--truststore-password=qwerty123", "--log-level=DEBUG", "--verbose"]
-
+CMD ["start", "--optimized"]
+ENV JAVA_OPTS="-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12 -Djavax.net.ssl.trustStorePassword=qwerty123 -Djavax.net.ssl.trustStoreType=PKCS12"
