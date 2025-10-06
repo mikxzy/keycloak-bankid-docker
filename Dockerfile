@@ -27,7 +27,7 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY theme /opt/keycloak/theme
 
 # 🔁 Kopiera realm-filen till rätt import-mapp
-COPY minvikt-realm.json /opt/keycloak/data/import/minvikt_realm.json
+COPY minvikt_realm.json /opt/keycloak/data/import/minvikt_realm.json
 
 EXPOSE 8080
 
