@@ -1,0 +1,80 @@
+{
+  "realm": "minvikt",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "minvikt-web",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "redirectUris": [
+        "https://minvikt.se/auth/callback"
+      ],
+      "webOrigins": [
+        "https://minvikt.se"
+      ],
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "baseUrl": "https://minvikt.se",
+      "rootUrl": "https://minvikt.se"
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "bankid",
+      "providerId": "keycloak-oidc",
+      "enabled": true,
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "authenticateByDefault": false,
+      "linkOnly": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "authorizationUrl": "https://appapi2.test.bankid.com/",
+        "tokenUrl": "https://appapi2.test.bankid.com/",
+        "userInfoUrl": "https://appapi2.test.bankid.com/",
+        "clientId": "fyll-i-själv",
+        "clientSecret": "fyll-i-själv",
+        "defaultScope": "openid",
+        "useJwksUrl": "false",
+        "jwksUrl": "",
+        "validateSignature": "false",
+        "backchannelSupported": "false",
+        "logoutUrl": "",
+        "redirectUri": "https://keycloak-bankid-docker-production.up.railway.app/realms/minvikt/broker/bankid/endpoint"
+      }
+    }
+  ],
+  "identityProviderMappers": [
+    {
+      "name": "username-mapper",
+      "identityProviderAlias": "bankid",
+      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+      "config": {
+        "user.attribute": "username",
+        "claim": "sub"
+      }
+    },
+    {
+      "name": "email-mapper",
+      "identityProviderAlias": "bankid",
+      "identityProviderMapper": "hardcoded-attribute-idp-mapper",
+      "config": {
+        "attribute": "email",
+        "attribute.value": "${ALIAS}_${ID}.bankid@minvikt.local"
+      }
+    },
+    {
+      "name": "acr-mapper",
+      "identityProviderAlias": "bankid",
+      "identityProviderMapper": "oidc-claim-to-role-idp-mapper",
+      "config": {
+        "claim": "acr",
+        "claim.value": "urn:bankid:loa3"
+      }
+    }
+  ]
+}

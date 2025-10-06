@@ -1,0 +1,72 @@
+{
+  "clientId": "supabase-client",
+  "name": "supabase-client",
+  "enabled": true,
+  "publicClient": false,
+  "protocol": "openid-connect",
+  "redirectUris": [
+    "mbiwetscqjmskrwfrscr.supabase.co/auth/v1/callback"
+  ],
+  "webOrigins": [
+    "https://mbiwetscqjmskrwfrscr.supabase.co",
+    "https://minvikt.se"
+  ],
+  "baseUrl": "https://minvikt.se",
+  "adminUrl": "https://minvikt.se",
+  "secret": "12345678",
+  "standardFlowEnabled": true,
+  "implicitFlowEnabled": false,
+  "directAccessGrantsEnabled": false,
+  "serviceAccountsEnabled": false,
+  "authorizationServicesEnabled": false,
+  "attributes": {
+    "post.logout.redirect.uris": "+",
+    "oauth2.device.authorization.grant.enabled": "false",
+    "backchannel.logout.revoke.offline.tokens": "false",
+    "backchannel.logout.session.required": "false",
+    "access.token.lifespan": "300"
+  },
+  "protocolMappers": [
+    {
+      "name": "email",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-usermodel-property-mapper",
+      "consentRequired": false,
+      "config": {
+        "userinfo.token.claim": "true",
+        "user.attribute": "email",
+        "id.token.claim": "true",
+        "access.token.claim": "true",
+        "claim.name": "email",
+        "jsonType.label": "String"
+      }
+    },
+    {
+      "name": "preferred_username",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-usermodel-property-mapper",
+      "consentRequired": false,
+      "config": {
+        "userinfo.token.claim": "true",
+        "user.attribute": "username",
+        "id.token.claim": "true",
+        "access.token.claim": "true",
+        "claim.name": "preferred_username",
+        "jsonType.label": "String"
+      }
+    },
+    {
+      "name": "sub",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-usersessionmodel-note-mapper",
+      "consentRequired": false,
+      "config": {
+        "user.session.note": "sub",
+        "id.token.claim": "true",
+        "access.token.claim": "true",
+        "claim.name": "sub",
+        "jsonType.label": "String"
+      }
+    }
+  ]
+}
