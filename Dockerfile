@@ -3,8 +3,7 @@ USER root
 
 RUN mkdir -p /opt/keycloak/keystore /opt/keycloak/truststore /opt/keycloak/providers
 
-COPY providers/sweden-connect-provider*.jar /opt/keycloak/providers/
-COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
+COPY providers/bankid4keycloak-26.0.0-SNAPSHOT.jar /opt/keycloak/providers/
 COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
