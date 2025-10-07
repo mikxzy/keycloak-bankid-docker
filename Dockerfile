@@ -17,10 +17,6 @@ USER root
 
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
-ENV JAVA_OPTS="-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12 \
-               -Djavax.net.ssl.trustStorePassword=qwerty123 \
-               -Djavax.net.ssl.trustStoreType=PKCS12"
-
 EXPOSE 8080
 
 # Set correct entrypoint and default command
