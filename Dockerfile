@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:26.2.5 AS builder
+FROM quay.io/keycloak/keycloak:26.0.4 AS builder
 USER root
 
 RUN mkdir -p /opt/keycloak/keystore /opt/keycloak/truststore /opt/keycloak/providers
@@ -7,8 +7,11 @@ COPY providers/bankid4keycloak-26.0.0-SNAPSHOT.jar /opt/keycloak/providers/
 COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
-RUN /opt/keycloak/bin/kc.sh build --db=postgres
-
+RUN /opt/keycloak/bin/kc.sh build \
+    --db=postgres \
+    --features=token-exchange \
+    --health-enabled=true \
+    --metrics-enabled=false
 # --------------------------------------------------
 
 FROM quay.io/keycloak/keycloak:26.2.5
