@@ -14,7 +14,7 @@ RUN /opt/keycloak/bin/kc.sh build \
     --metrics-enabled=false
 # --------------------------------------------------
 
-FROM quay.io/keycloak/keycloak:26.2.5
+FROM quay.io/keycloak/keycloak:26.0.4
 USER root
 
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
