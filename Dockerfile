@@ -1,5 +1,4 @@
-# ---------- BUILDER ----------
- FROM keycloak/keycloak:26.0.4 AS builder
+FROM keycloak/keycloak:26.0.4 AS builder
 
 USER root
 
@@ -15,8 +14,12 @@ COPY theme /opt/keycloak/theme
 # Kontrollera innehåll
 RUN ls -lh /opt/keycloak/truststore/
 
-# Build med PostgreSQL och custom theme
-RUN /opt/keycloak/bin/kc.sh build --db=postgres
+# ⚠️ BUILD MED HEALTH & METRICS AKTIVERAT ⚠️
+RUN /opt/keycloak/bin/kc.sh build \
+    --db=postgres \
+    --health-enabled=true \
+    --metrics-enabled=true \
+    --features=token-exchange,admin-fine-grained-authz
 
 # Runtime image
 FROM keycloak/keycloak:26.0.4
@@ -26,8 +29,15 @@ USER root
 # 🔁 Kopiera byggd keycloak med theme och providers
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
-# 🔁 Kopiera themes separat igen för säkerhets skull (valfritt men säkert)
+# 🔁 Kopiera themes separat igen för säkerhets skull
 COPY theme /opt/keycloak/theme
+
+# ⚠️ SÄTT ENVIRONMENT VARIABLES FÖR RAILWAY ⚠️
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
+ENV KC_HOSTNAME_STRICT=false
+ENV KC_HOSTNAME_STRICT_HTTPS=false
+ENV KC_PROXY=edge
 
 EXPOSE 8080
 
