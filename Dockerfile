@@ -8,7 +8,7 @@ COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
 COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem/
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12/
 COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12/
-
+COPY theme /opt/keycloak/themes/
 
 # Bygg med postgres, health och metrics. (token-exchange om du använder det)
 RUN /opt/keycloak/bin/kc.sh build \
@@ -25,4 +25,4 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 EXPOSE 8080
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start","--optimized","-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12","-Djavax.net.ssl.trustStorePassword=qwerty123","-Djavax.net.ssl.trustStoreType=PKCS12","--log-level=INFO","--verbose"]
+CMD [kc.sh start --optimized --log-level=INFO]
