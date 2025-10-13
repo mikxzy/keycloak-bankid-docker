@@ -11,7 +11,7 @@ COPY theme /opt/keycloak/theme/
 RUN /opt/keycloak/bin/kc.sh build \
     --db=--db=postgres:14 \
     --health-enabled=true \
-    --metrics-enabled=true
+    --metrics-enabled=true 
 
 # ---- Runtime stage ----
 FROM quay.io/keycloak/keycloak:26.0.4
@@ -19,7 +19,6 @@ USER root
 
 # Ta med den optimerade Keycloak-bygget
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
-
 EXPOSE 8080
 
 # Viktigt: kör bakom proxy (Railway/Render). Ingen server-HTTPS här.
