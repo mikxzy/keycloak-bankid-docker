@@ -1,26 +1,35 @@
-# ---- Build stage ----
-FROM quay.io/keycloak/keycloak:26.0.4 AS builder
+FROM keycloak/keycloak:26.0.4 AS builder
+
 USER root
 
-# Lägg in BankID-IdP (sweid4keycloak/bankid4keycloak) och ev. eget tema
-# (om du inte har dessa kataloger i repo kan du ta bort COPY-raderna)
+# Kopiera providers och certifikat
 COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
-COPY theme /opt/keycloak/theme/
+COPY providers/postgresql-42.4.4.jar /opt/keycloak/providers/
+COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12
+COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
-# Förbered Keycloak med Postgres-stöd och nyttiga features
-RUN /opt/keycloak/bin/kc.sh build \
-    --db=--db=postgres:14 \
-    --health-enabled=true \
-    --metrics-enabled=true 
+# 🔹 Kopiera custom theme till rätt plats
+COPY theme /opt/keycloak/theme
 
-# ---- Runtime stage ----
-FROM quay.io/keycloak/keycloak:26.0.4
+# Kontrollera innehåll
+RUN ls -lh /opt/keycloak/truststore/
+
+# Build med PostgreSQL och custom theme
+RUN /opt/keycloak/bin/kc.sh build --db=postgres:14
+
+
+# Runtime image
+FROM keycloak/keycloak:26.0.4
+
 USER root
 
-# Ta med den optimerade Keycloak-bygget
+# 🔁 Kopiera byggd keycloak med theme och providers
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
+
+# 🔁 Kopiera themes separat igen för säkerhets skull (valfritt men säkert)
+COPY theme /opt/keycloak/theme
+
 EXPOSE 8080
 
-# Viktigt: kör bakom proxy (Railway/Render). Ingen server-HTTPS här.
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start", "--optimized", "--log-level=INFO"]
+CMD ["start","--optimized","-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12","-Djavax.net.ssl.trustStorePassword=qwerty123","-Djavax.net.ssl.trustStoreType=PKCS12","--log-level=INFO"]
