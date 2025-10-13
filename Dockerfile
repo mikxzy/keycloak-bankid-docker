@@ -4,7 +4,7 @@ USER root
 
 # Kopiera providers (BankID + Postgres)
 COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
-COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
+COPY providers/postgresql-42.4.5.jar /opt/keycloak/providers/
 
 # Kopiera certifikat
 COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
