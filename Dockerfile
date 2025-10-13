@@ -4,7 +4,7 @@ USER root
 
 # Kopiera providers och certifikat
 COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
-COPY providers/postgresql-42.4.4.jar /opt/keycloak/providers/
+COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
 COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
