@@ -5,11 +5,11 @@ USER root
 # Lägg in BankID-IdP (sweid4keycloak/bankid4keycloak) och ev. eget tema
 # (om du inte har dessa kataloger i repo kan du ta bort COPY-raderna)
 COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
-COPY theme /opt/keycloak/themes/
+COPY theme /opt/keycloak/theme/
 
 # Förbered Keycloak med Postgres-stöd och nyttiga features
 RUN /opt/keycloak/bin/kc.sh build \
-    --db=postgres \
+    --db=--db=postgres:14 \
     --health-enabled=true \
     --metrics-enabled=true
 
