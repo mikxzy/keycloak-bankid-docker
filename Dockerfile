@@ -32,4 +32,4 @@ COPY theme /opt/keycloak/theme
 EXPOSE 8080
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start","--optimized","-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12","-Djavax.net.ssl.trustStorePassword=qwerty123","-Djavax.net.ssl.trustStoreType=PKCS12","--log-level=INFO"]
+CMD ["start-dev","--optimized","-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12","-Djavax.net.ssl.trustStorePassword=qwerty123","-Djavax.net.ssl.trustStoreType=PKCS12","--log-level=INFO"]
