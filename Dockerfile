@@ -27,7 +27,7 @@ USER root
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # 🔁 Kopiera themes separat igen för säkerhets skull (valfritt men säkert)
-COPY themes /opt/keycloak/themes
+COPY theme /opt/keycloak/themes
 
 EXPOSE 8080
 
