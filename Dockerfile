@@ -1,4 +1,4 @@
-FROM keycloak/keycloak:26.0.4 AS builder
+FROM keycloak/keycloak:26.0.0 AS builder
 
 USER root
 
@@ -19,7 +19,7 @@ RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
 
 # Runtime image
-FROM keycloak/keycloak:26.0.4
+FROM keycloak/keycloak:26.0.0
 
 USER root
 
