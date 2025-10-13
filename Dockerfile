@@ -15,7 +15,7 @@ COPY theme /opt/keycloak/theme
 RUN ls -lh /opt/keycloak/truststore/
 
 # Build med PostgreSQL och custom theme
-RUN /opt/keycloak/bin/kc.sh build --db=postgres:14
+RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
 
 # Runtime image
