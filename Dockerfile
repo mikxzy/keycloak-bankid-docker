@@ -29,4 +29,4 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 EXPOSE 8080
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start","--optimized"]
+CMD [CMD bör vara: kc.sh start --optimized --log-level=INFO]
