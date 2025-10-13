@@ -4,7 +4,7 @@ USER root
 
 # Kopiera providers (BankID + Postgres)
 COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
-COPY providers/postgresql-42.4.5.jar /opt/keycloak/providers/
+COPY providers/postgresql-42.4.4.jar /opt/keycloak/providers/
 
 # Kopiera certifikat
 COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
@@ -29,4 +29,4 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 EXPOSE 8080
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD [CMD bör vara: kc.sh start --optimized --log-level=INFO]
+CMD ["start", "--optimized", "--log-level=INFO"]
