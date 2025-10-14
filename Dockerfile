@@ -1,8 +1,7 @@
-FROM keycloak/keycloak:26.0.0 AS builder
+FROM keycloak/keycloak:25.0.4 AS builder
 
 USER root
 
-# Kopiera providers och certifikat
 COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
 COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
 COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12
@@ -15,11 +14,13 @@ COPY theme /opt/keycloak/theme
 RUN ls -lh /opt/keycloak/truststore/
 
 # Build med PostgreSQL och custom theme
-RUN /opt/keycloak/bin/kc.sh build --db=postgres
+RUN /opt/keycloak/bin/kc.sh build \
+    --db=postgres \
+    --features=preview \
+    --health-enabled=true \
+    --metrics-enabled=true
 
-
-# Runtime image
-FROM keycloak/keycloak:26.0.0
+FROM keycloak/keycloak:25.0.4
 
 USER root
 
@@ -31,5 +32,5 @@ COPY theme /opt/keycloak/theme
 
 EXPOSE 8080
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start","--optimized","-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12","-Djavax.net.ssl.trustStorePassword=qwerty123","-Djavax.net.ssl.trustStoreType=PKCS12","--log-level=INFO","--verbose"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--optimized"]
+CMD ["-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12","-Djavax.net.ssl.trustStorePassword=qwerty123","-Djavax.net.ssl.trustStoreType=PKCS12","--log-level=INFO","--verbose"]
