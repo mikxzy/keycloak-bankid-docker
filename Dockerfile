@@ -1,28 +1,14 @@
-# ---- Build stage ----
-FROM quay.io/keycloak/keycloak:25.0.4 AS builder
+FROM quay.io/keycloak/keycloak:25.0.1 AS builder
 USER root
-
-# (Valfritt) BankID-IdP-provider JAR
-COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
-
-# (Valfritt) Eget tema (OBS! rätt sökväg = themes/)
-COPY theme /opt/keycloak/themes/
-
-# Förbered Keycloak med Postgres-stöd + health/metrics
-RUN /opt/keycloak/bin/kc.sh build \
-    --db=postgres \
-    --health-enabled=true \
-    --metrics-enabled=true
-
-# ---- Runtime stage ----
-FROM quay.io/keycloak/keycloak:25.0.4
+COPY providers/bankid4keycloak-26.0.0-SNAPSHOT.jar /opt/keycloak/providers/
+COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
+COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
+COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
+# Build with PostgreSQL support
+RUN /opt/keycloak/bin/kc.sh build --db=postgres
+FROM quay.io/keycloak/keycloak:25.0.1
 USER root
-
-# Ta med det optimerade bygget
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
-
 EXPOSE 8080
-
-# Kör bakom proxy; inga --https-* flaggor här
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start", "--optimized", "--log-level=INFO"]
+CMD ["start","--optimized","--truststore-paths=/opt/keycloak/truststore/bankid-root.pem","--log-level=DEBUG","--verbose"]
