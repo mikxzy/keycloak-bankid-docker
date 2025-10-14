@@ -32,5 +32,5 @@ COPY theme /opt/keycloak/theme
 
 EXPOSE 8080
 
-CMD ["/opt/keycloak/bin/kc.sh", "start-dev"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
 
