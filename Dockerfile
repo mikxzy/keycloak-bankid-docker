@@ -1,22 +1,36 @@
-FROM quay.io/keycloak/keycloak:25.0.1 AS builder
+FROM keycloak/keycloak:26.0.4 AS builder
+
 USER root
-COPY providers/bankid4keycloak-26.0.0-SNAPSHOT.jar /opt/keycloak/providers/
+
+# Kopiera providers och certifikat
+COPY providers/bankid4keycloak*.jar /opt/keycloak/providers/
 COPY providers/postgresql-42.5.4.jar /opt/keycloak/providers/
-COPY cert/bankid-root.pem /opt/keycloak/truststore/bankid-root.pem
+COPY cert/truststore.p12 /opt/keycloak/truststore/truststore.p12
 COPY cert/FPTestcert5_20240610.p12 /opt/keycloak/keystore/FPTestcert5_20240610.p12
 
+# 🔹 Kopiera custom theme till rätt plats
 COPY themes /opt/keycloak/themes
-# Build with PostgreSQL support
+
+# Kontrollera innehåll
+RUN ls -lh /opt/keycloak/truststore/
+
+# 🔧 Build med PostgreSQL och custom theme
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
-FROM quay.io/keycloak/keycloak:25.0.1
+
+# Runtime image
+FROM keycloak/keycloak:26.0.4
+
 USER root
+
 # 🔁 Kopiera byggd keycloak med theme och providers
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # 🔁 Kopiera themes separat igen för säkerhets skull (valfritt men säkert)
 COPY themes /opt/keycloak/themes
 
-
 EXPOSE 8080
+
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start","--optimized","--truststore-paths=/opt/keycloak/truststore/bankid-root.pem","--log-level=DEBUG","--verbose"]
+CMD ["start", "--optimized","-Djavax.net.ssl.trustStore=/opt/keycloak/truststore/truststore.p12","-Djavax.net.ssl.trustStorePassword=qwerty123","-Djavax.net.ssl.trustStoreType=PKCS12","--log-level=DEBUG","--verbose"]
+   
+
